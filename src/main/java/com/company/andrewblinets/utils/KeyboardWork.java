@@ -61,7 +61,7 @@ public class KeyboardWork {
     public String readString(String str)
     {
         do {
-            System.out.println(str);
+            System.out.print(str);
             try {
                 flagError = false;
                 String string = in.readLine();
