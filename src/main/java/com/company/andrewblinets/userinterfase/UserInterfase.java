@@ -1,19 +1,25 @@
 package com.company.andrewblinets.userinterfase;
 
+import com.company.andrewblinets.exception.ImageExeption;
+import com.company.andrewblinets.exception.ResourseException;
 import com.company.andrewblinets.filework.ImageClass;
+import com.company.andrewblinets.filework.JSONClasss;
 import com.company.andrewblinets.utils.KeyboardWork;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Андрей on 18.10.2017.
  */
 public class UserInterfase {
 
-    private static final String MENU = "\tMenu\n1 - Study\n2 - Make\n3 - EXIT\n4 - коэф по яркости\n";
+    private static final String MENU = "\tMenu\n1 - Study\n2 - Make\n3 - EXIT\n4 - коэф по яркости\n5 - коэф по summa\n";
     private static final String ENTER_URL = "Enter URL root\n";
-    private static final String ENTER_VALUE_PIXCEL = "Enter value pixcel(0 - 255)";
+    private static final String ENTER_VALUE_PIXCEL = "Enter value pixcel(0 - 255)  ";
+    private static final String ENTER_ROOT_TEMPLATE = "Enter URL template\n";
 
     private static UserInterfase userInterfase = new UserInterfase();
     private ImageClass imageClass;
@@ -46,17 +52,31 @@ public class UserInterfase {
                     }
                     case 4:
                     {
-                        userInterfase.transport();
+                        userInterfase.transportBy1Color();
+                    }
+                    case 5:
+                    {
+                        userInterfase.transportBy3Color();
                     }
                 }
         }
         while (exit == 0);
     }
 
-    private void transport() {
+    private void transportBy3Color() {
         imageClass.setImageURL(keyboardWork.readString(ENTER_URL));
         try {
-            imageClass.getNewImageWithNewPixsel(keyboardWork.readInt(ENTER_VALUE_PIXCEL));
+            imageClass.getNewImageWithNewPixselWith3Color(keyboardWork.readInt(ENTER_VALUE_PIXCEL));
+            System.out.println("CREATE ALL IMAGE");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void transportBy1Color() {
+        imageClass.setImageURL(keyboardWork.readString(ENTER_URL));
+        try {
+            imageClass.getNewImageWithNewPixselByRedColor(keyboardWork.readInt(ENTER_VALUE_PIXCEL));
             System.out.println("CREATE ALL IMAGE");
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -68,6 +88,14 @@ public class UserInterfase {
     }
 
     private void study() {
-
+        try {
+            new ImageClass().chekingImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ResourseException e) {
+            e.printStackTrace();
+        } catch (ImageExeption imageExeption) {
+            imageExeption.printStackTrace();
+        }
     }
 }
