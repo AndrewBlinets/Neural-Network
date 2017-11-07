@@ -11,7 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Андрей on 18.10.2017.
@@ -29,9 +31,10 @@ public class ImageClass {
     private List<List<Integer>> libra8;
     private List<List<Integer>> libra9;
     private List<List<Integer>> imageMatrix;
-    private Color[][] result;
+   // private Color[][] result;
     private BufferedImage image;
     private int globalCountError;
+    private int valueCompositionLibraOnImage = 60000;
 
     public ImageClass() {
         globalCountError = 0;
@@ -184,12 +187,12 @@ public class ImageClass {
         int count = 0;
         do {
             int result = compositionLibraAndImage(libra);
-            if (result > 30000 && !flag) {
+            if (result > valueCompositionLibraOnImage && !flag) {
                 difference(libra);
                 count++;
                 globalCountError++;
             }
-            if (result < 30000 && flag) {
+            if (result < valueCompositionLibraOnImage && flag) {
                 {
                     summa(libra);
                     count++;
@@ -296,11 +299,16 @@ public class ImageClass {
                         libra.get(i).add(0);
                         libra.get(i).set(j,libra.get(i).get(j) + imageMatrix.get(i).get(j));
                     }
+                    catch (IndexOutOfBoundsException e1)
+                    {
+                        libra.get(i).add(0);
+                        libra.get(i).set(j,libra.get(i).get(j) + imageMatrix.get(i).get(j));
+                    }
                 }
             }catch (Exception e)
             {
-                System.out.println(i);
-                System.out.println(imageURL);
+                //System.out.println(i);
+                //System.out.println(imageURL);
                 e.printStackTrace();
             }
         }
@@ -321,6 +329,11 @@ public class ImageClass {
                     libra.get(i).add(0);
                     libra.get(i).set(j,libra.get(i).get(j) - imageMatrix.get(i).get(j));
                 }
+                catch (IndexOutOfBoundsException e1)
+                {
+                    libra.get(i).add(0);
+                    libra.get(i).set(j,libra.get(i).get(j) + imageMatrix.get(i).get(j));
+                }
             }
         }
        // return libra;
@@ -338,8 +351,17 @@ public class ImageClass {
              }
              catch (IndexOutOfBoundsException e)
              {
-                 libra.get(i).add(0);
+              //   System.out.println(imageURL);
+                try{
+                    libra.get(i).add(0);
+                }
+                catch (IndexOutOfBoundsException e1)
+                {
+                    libra.add(new ArrayList<>());
+                  //  System.out.println();
+                }
              }
+
          }
         }
         return res;
@@ -358,5 +380,243 @@ public class ImageClass {
         libra8 = new JSONClasss("Libra/8.json").readJsonFile();
         libra9 = new JSONClasss("Libra/9.json").readJsonFile();
 
+    }
+
+    public String getTextFromImage(int value) throws IOException {
+        List<List<Integer>> imageMatrixThisMetod = new ArrayList<>();
+        String textFromImage = "";
+        File[] list = new File(imageURL).listFiles();
+        for (File aList : list) {
+            readLibra();
+            image = ImageIO.read(new File(aList.getPath()));
+            for (int i = 0; i < image.getHeight(); i++) {
+                imageMatrixThisMetod.add(new ArrayList<>());
+                for (int j = 0; j < image.getWidth(); j++) {
+                    if (new Color(image.getRGB(j, i)).getRed() > value) {
+                        imageMatrixThisMetod.get(i).add(1);
+                    }
+                    else
+                    {
+                        imageMatrixThisMetod.get(i).add(0);
+                    }
+                }
+            }
+            int heightImage = image.getHeight();
+            int widthImage = image.getWidth();
+            int summa = 0;
+            /*for (int i = heightImage - 1; i > -1; i--)
+            {
+                for (int j = widthImage - 1; j > -1; j--)
+                {
+                    summa += imageMatrixThisMetod.get(i).get(j);
+                }
+                if (summa < 10)
+                    imageMatrixThisMetod.remove(i);
+                summa = 0;
+            }*/
+            /*for(int i = 0; i < imageMatrixThisMetod.size(); i++)
+            {
+                for (int j = 0; j < imageMatrixThisMetod.get(i).size(); j++)
+                {
+                    System.out.print(imageMatrixThisMetod.get(i).get(j));
+                }
+                System.out.println();
+            }*/
+
+            int sizeTextFromImage = textFromImage.length();
+            int xStartPosSearchText = 0;
+            int xEndPosSearchText = 10;
+            boolean flag5 = false, flag7 =false;
+            do {
+                List<List<Integer>> partOfImage = getPartImage(xStartPosSearchText, xEndPosSearchText, imageMatrixThisMetod);
+                textFromImage += resultCompositionLibraAndPartImage(partOfImage);
+                if(sizeTextFromImage == textFromImage.length())
+                {
+                    xEndPosSearchText++;
+                }
+
+                if(sizeTextFromImage == textFromImage.length() - 1 )
+                {
+                    //xStartPosSearchText = xEndPosSearchText;
+                    if(textFromImage.length() - 1 == 0)
+                    {
+                        xStartPosSearchText = 21;
+                        xEndPosSearchText = xStartPosSearchText + 16;
+                        sizeTextFromImage = textFromImage.length();
+                    }
+                    else {
+                        xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
+                        xEndPosSearchText = xStartPosSearchText + 16;
+                        sizeTextFromImage = textFromImage.length();
+                    }
+                }
+                if(textFromImage.length() == 5 && !flag5)
+                {
+                    xStartPosSearchText += 26;
+                    xEndPosSearchText = xStartPosSearchText + 16;
+                    flag5 = true;
+                    textFromImage += " ";
+                    sizeTextFromImage = textFromImage.length();
+                    //xStartPosSearchText++;
+                    //xStartPosSearchText++;
+                }
+                if(textFromImage.length() == 8 && !flag7)
+                {
+                    xStartPosSearchText += 26;
+                    xEndPosSearchText = xStartPosSearchText + 16;
+                    flag7 = true;
+                    textFromImage += " ";
+                    sizeTextFromImage = textFromImage.length();
+                }
+                if(sizeTextFromImage <= textFromImage.length() - 2)
+                {
+                    return "Errors";
+                }
+            }
+            while (xEndPosSearchText < imageMatrixThisMetod.get(0).size());
+            System.out.println("result - " + textFromImage);
+        }
+        //return "qwe";
+        return textFromImage;
+    }
+
+    private String resultCompositionLibraAndPartImage(List<List<Integer>> partOfImage) {
+        Map<Integer,Integer> map = new HashMap<>();
+        System.out.print(0);
+        if(compositionLibraAndPartImage(partOfImage,libra0) > valueCompositionLibraOnImage)
+            map.put(0,compositionLibraAndPartImage(partOfImage,libra0));//return String.valueOf(0);
+        System.out.print(1);
+        if(compositionLibraAndPartImage(partOfImage,libra1) > valueCompositionLibraOnImage)
+            map.put(1,compositionLibraAndPartImage(partOfImage,libra1));;//return String.valueOf(1);
+        System.out.print(2);
+        if(compositionLibraAndPartImage(partOfImage,libra2) > valueCompositionLibraOnImage)
+            map.put(2,compositionLibraAndPartImage(partOfImage,libra2));;//return String.valueOf(2);
+        System.out.print(3);
+        if(compositionLibraAndPartImage(partOfImage,libra3) > valueCompositionLibraOnImage)
+            map.put(3,compositionLibraAndPartImage(partOfImage,libra3));//return String.valueOf(3);
+        System.out.print(4);
+        if(compositionLibraAndPartImage(partOfImage,libra4) > valueCompositionLibraOnImage)
+            map.put(4,compositionLibraAndPartImage(partOfImage,libra4));// return String.valueOf(4);
+        System.out.print(5);
+        if(compositionLibraAndPartImage(partOfImage,libra5) > valueCompositionLibraOnImage)
+            map.put(5,compositionLibraAndPartImage(partOfImage,libra5));//return String.valueOf(5);
+        System.out.print(6);
+        if(compositionLibraAndPartImage(partOfImage,libra6) > valueCompositionLibraOnImage)
+            map.put(6,compositionLibraAndPartImage(partOfImage,libra6));//return String.valueOf(6);
+        System.out.print(7);
+        if(compositionLibraAndPartImage(partOfImage,libra7) > valueCompositionLibraOnImage)
+            map.put(7,compositionLibraAndPartImage(partOfImage,libra7));//return String.valueOf(7);
+        System.out.print(8);
+        if(compositionLibraAndPartImage(partOfImage,libra8) > valueCompositionLibraOnImage)
+            map.put(8,compositionLibraAndPartImage(partOfImage,libra8));// return String.valueOf(8);
+        System.out.print(9);
+        if(compositionLibraAndPartImage(partOfImage,libra9) > valueCompositionLibraOnImage)
+            map.put(9,compositionLibraAndPartImage(partOfImage,libra9));//return String.valueOf(9);
+//        else
+//            return "";
+        if(map.size() == 0)
+            return "";
+        if(map.size() == 1)
+        {
+            for (Integer key : map.keySet()) {
+                return key + "";
+            }
+            return "";
+        }
+        else
+        {
+            int maxValue = 0;
+            int keyReturn = 0;
+            for (Integer key : map.keySet()) {
+                if(maxValue < map.get(key)) {
+                    maxValue = map.get(key);
+                    keyReturn = key;
+                }
+            }
+            return keyReturn + "";
+        }
+    }
+
+    private int compositionLibraAndPartImage(List<List<Integer>> partOfImage, List<List<Integer>> libra) {
+        int res = 0;
+        for (int i = 0; i < partOfImage.size(); i++)
+        {
+            for (int j = 0; j < partOfImage.get(0).size(); j++)
+            {
+                try
+                {
+                    res += libra.get(i).get(j) * partOfImage.get(i).get(j);
+                }
+                catch (Exception e)
+                {
+                  //  e.printStackTrace();
+                }
+
+            }
+        }
+        System.out.println("result = " + res);
+        return res;
+    }
+
+    private List<List<Integer>> getPartImage(int xStartPositionText, int xEndPosSearchText, List<List<Integer>> imageMatrixThisMetod) {
+        List<List<Integer>> lists = new ArrayList<>();
+        try {
+            for (int i = 0; i < imageMatrixThisMetod.size(); i++)
+            {
+                lists.add(new ArrayList<>());
+                for (int j = xStartPositionText; j < xEndPosSearchText + 1; j++)
+                {
+                    System.out.print(imageMatrixThisMetod.get(i).get(j));
+                    lists.get(i).add(imageMatrixThisMetod.get(i).get(j));
+                }
+                System.out.print("\n");
+            }
+        }
+        catch (Exception e)
+        {
+            int a = 0;
+            a++;
+        }
+        return lists;
+    }
+
+    public void stydyByJson() throws ResourseException, ImageExeption {
+        readLibra();
+        File[] list = new File("templateImageInJSONType").listFiles();
+        if (list.length == 0)
+        {
+            throw new ResourseException("not found packeg");
+        }
+        do {
+            globalCountError = 0;
+            for (int i = 0; i < 10; i++) {
+                File[] listImage = new File(list[i].getPath()).listFiles();
+                if (listImage.length == 0)
+                {
+                    writeLibra();
+                    throw new ImageExeption("not found image by - " + i);
+                }
+                for (File bList : listImage)
+                {
+                    imageURL = bList.getPath();
+                   // getMatrixImage();
+                    imageMatrix = new JSONClasss(imageURL).readJsonFile();
+                    makeWithLibra0(i);
+                    makeWithLibra1(i);
+                    makeWithLibra2(i);
+                    makeWithLibra3(i);
+                    makeWithLibra4(i);
+                    makeWithLibra5(i);
+                    makeWithLibra6(i);
+                    makeWithLibra7(i);
+                    makeWithLibra8(i);
+                    makeWithLibra9(i);
+                    removeMatrixImage();
+                }
+            }
+            System.out.println("kol globalError " + globalCountError);
+        }
+        while (globalCountError != 0);
+        writeLibra();
     }
 }

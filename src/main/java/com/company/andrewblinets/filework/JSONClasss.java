@@ -1,5 +1,6 @@
 package com.company.andrewblinets.filework;
 
+import com.company.andrewblinets.entity.ImageClassByPixcel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -26,7 +27,7 @@ public class JSONClasss {
     {
         try (FileWriter file = new FileWriter(urlJsonFile)) {
             file.write(json);
-            System.out.println("Successfully Copied JSON Object to File " + urlJsonFile + "...");
+           // System.out.println("Successfully Copied JSON Object to File " + urlJsonFile + "...");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,6 +39,18 @@ public class JSONClasss {
     {
         Type listType = new TypeToken<List<List<Integer>>>() {}.getType();
         try (FileReader fileReader = new FileReader(urlJsonFile))
+        {
+            return new Gson().fromJson(new JsonReader(fileReader), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ImageClassByPixcel readJsonFile(String urlTemplate)
+    {
+        Type listType = new TypeToken<ImageClassByPixcel>() {}.getType();
+        try (FileReader fileReader = new FileReader(urlTemplate))
         {
             return new Gson().fromJson(new JsonReader(fileReader), listType);
         } catch (IOException e) {
