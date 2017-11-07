@@ -382,134 +382,139 @@ public class ImageClass {
 
     }
 
-    public String getTextFromImage(int value) throws IOException {
+    public String getTextFromImage(int value, String url) throws IOException {
         List<List<Integer>> imageMatrixThisMetod = new ArrayList<>();
         String textFromImage = "";
-        File[] list = new File(imageURL).listFiles();
-        for (File aList : list) {
             readLibra();
-            image = ImageIO.read(new File(aList.getPath()));
-            for (int i = 0; i < image.getHeight(); i++) {
-                imageMatrixThisMetod.add(new ArrayList<>());
-                for (int j = 0; j < image.getWidth(); j++) {
-                    if (new Color(image.getRGB(j, i)).getRed() > value) {
-                        imageMatrixThisMetod.get(i).add(1);
-                    }
-                    else
-                    {
-                        imageMatrixThisMetod.get(i).add(0);
-                    }
-                }
-            }
-            int heightImage = image.getHeight();
-            int widthImage = image.getWidth();
-            int summa = 0;
-            /*for (int i = heightImage - 1; i > -1; i--)
+            image = ImageIO.read(new File(url));
+            if (image.getHeight() == 30)
             {
-                for (int j = widthImage - 1; j > -1; j--)
-                {
-                    summa += imageMatrixThisMetod.get(i).get(j);
+                for (int i = 0; i < image.getHeight(); i++) {
+                    imageMatrixThisMetod.add(new ArrayList<>());
+                    for (int j = 0; j < image.getWidth(); j++) {
+                        if (new Color(image.getRGB(j, i)).getRed() > value) {
+                            imageMatrixThisMetod.get(i).add(1);
+                        } else {
+                            imageMatrixThisMetod.get(i).add(0);
+                        }
+                    }
                 }
-                if (summa < 10)
-                    imageMatrixThisMetod.remove(i);
-                summa = 0;
-            }*/
-            /*for(int i = 0; i < imageMatrixThisMetod.size(); i++)
-            {
-                for (int j = 0; j < imageMatrixThisMetod.get(i).size(); j++)
+                int heightImage = image.getHeight();
+                int widthImage = image.getWidth();
+                int summa = 0;
+                /*for (int i = heightImage - 1; i > -1; i--)
                 {
-                    System.out.print(imageMatrixThisMetod.get(i).get(j));
-                }
-                System.out.println();
-            }*/
-
-            int sizeTextFromImage = textFromImage.length();
-            int xStartPosSearchText = 0;
-            int xEndPosSearchText = 10;
-            boolean flag5 = false, flag7 =false;
-            do {
-                List<List<Integer>> partOfImage = getPartImage(xStartPosSearchText, xEndPosSearchText, imageMatrixThisMetod);
-                textFromImage += resultCompositionLibraAndPartImage(partOfImage);
-                if(sizeTextFromImage == textFromImage.length())
-                {
-                    xEndPosSearchText++;
-                }
-
-                if(sizeTextFromImage == textFromImage.length() - 1 )
-                {
-                    //xStartPosSearchText = xEndPosSearchText;
-                    if(textFromImage.length() - 1 == 0)
+                    for (int j = widthImage - 1; j > -1; j--)
                     {
-                        xStartPosSearchText = 21;
+                        summa += imageMatrixThisMetod.get(i).get(j);
+                    }
+                    if (summa < 10)
+                        imageMatrixThisMetod.remove(i);
+                    summa = 0;
+                }*/
+                /*for(int i = 0; i < imageMatrixThisMetod.size(); i++)
+                {
+                    for (int j = 0; j < imageMatrixThisMetod.get(i).size(); j++)
+                    {
+                        System.out.print(imageMatrixThisMetod.get(i).get(j));
+                    }
+                    System.out.println();
+                }*/
+
+                int sizeTextFromImage = textFromImage.length();
+                int xStartPosSearchText = 0;
+                int xEndPosSearchText = 10;
+                boolean flag5 = false, flag7 = false;
+                do {
+                    List<List<Integer>> partOfImage = getPartImage(xStartPosSearchText, xEndPosSearchText, imageMatrixThisMetod);
+                    textFromImage += resultCompositionLibraAndPartImage(partOfImage);
+                    if (sizeTextFromImage == textFromImage.length()) {
+                        xEndPosSearchText++;
+                    }
+
+                    if (sizeTextFromImage == textFromImage.length() - 1) {
+                        //xStartPosSearchText = xEndPosSearchText;
+                        if (textFromImage.length() - 1 == 0) {
+                            xStartPosSearchText = 21;
+                            xEndPosSearchText = xStartPosSearchText + 16;
+                            sizeTextFromImage = textFromImage.length();
+                        } else {
+                            xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
+                            xEndPosSearchText = xStartPosSearchText + 16;
+                            sizeTextFromImage = textFromImage.length();
+                        }
+                    }
+                    if (textFromImage.length() == 5 && !flag5) {
+                        xStartPosSearchText += 26;
                         xEndPosSearchText = xStartPosSearchText + 16;
+                        flag5 = true;
+                        textFromImage += " ";
+                        sizeTextFromImage = textFromImage.length();
+                        //xStartPosSearchText++;
+                        //xStartPosSearchText++;
+                    }
+                    if (textFromImage.length() == 8 && !flag7) {
+                        xStartPosSearchText += 26;
+                        xEndPosSearchText = xStartPosSearchText + 16;
+                        flag7 = true;
+                        textFromImage += " ";
                         sizeTextFromImage = textFromImage.length();
                     }
-                    else {
-                        xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
-                        xEndPosSearchText = xStartPosSearchText + 16;
-                        sizeTextFromImage = textFromImage.length();
+                    if(xEndPosSearchText - xStartPosSearchText > 24)
+                    {
+                        textFromImage += "|";
+                        if (textFromImage.length() - 1 == 0) {
+                            xStartPosSearchText = 21;
+                            xEndPosSearchText = xStartPosSearchText + 16;
+                            sizeTextFromImage = textFromImage.length();
+                        } else {
+                            xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
+                            xEndPosSearchText = xStartPosSearchText + 16;
+                            sizeTextFromImage = textFromImage.length();
+                        }
+                    }
+                    if (sizeTextFromImage <= textFromImage.length() - 2) {
+                        textFromImage += " Errors";
+                        xEndPosSearchText = imageMatrixThisMetod.get(0).size();
                     }
                 }
-                if(textFromImage.length() == 5 && !flag5)
-                {
-                    xStartPosSearchText += 26;
-                    xEndPosSearchText = xStartPosSearchText + 16;
-                    flag5 = true;
-                    textFromImage += " ";
-                    sizeTextFromImage = textFromImage.length();
-                    //xStartPosSearchText++;
-                    //xStartPosSearchText++;
-                }
-                if(textFromImage.length() == 8 && !flag7)
-                {
-                    xStartPosSearchText += 26;
-                    xEndPosSearchText = xStartPosSearchText + 16;
-                    flag7 = true;
-                    textFromImage += " ";
-                    sizeTextFromImage = textFromImage.length();
-                }
-                if(sizeTextFromImage <= textFromImage.length() - 2)
-                {
-                    return "Errors";
-                }
+                while (xEndPosSearchText < imageMatrixThisMetod.get(0).size());
+               // System.out.println("result - " + textFromImage);
             }
-            while (xEndPosSearchText < imageMatrixThisMetod.get(0).size());
-            System.out.println("result - " + textFromImage);
-        }
         //return "qwe";
         return textFromImage;
     }
 
     private String resultCompositionLibraAndPartImage(List<List<Integer>> partOfImage) {
         Map<Integer,Integer> map = new HashMap<>();
-        System.out.print(0);
+        //System.out.print(0);
         if(compositionLibraAndPartImage(partOfImage,libra0) > valueCompositionLibraOnImage)
             map.put(0,compositionLibraAndPartImage(partOfImage,libra0));//return String.valueOf(0);
-        System.out.print(1);
+       // System.out.print(1);
         if(compositionLibraAndPartImage(partOfImage,libra1) > valueCompositionLibraOnImage)
             map.put(1,compositionLibraAndPartImage(partOfImage,libra1));;//return String.valueOf(1);
-        System.out.print(2);
+       // System.out.print(2);
         if(compositionLibraAndPartImage(partOfImage,libra2) > valueCompositionLibraOnImage)
             map.put(2,compositionLibraAndPartImage(partOfImage,libra2));;//return String.valueOf(2);
-        System.out.print(3);
+        //System.out.print(3);
         if(compositionLibraAndPartImage(partOfImage,libra3) > valueCompositionLibraOnImage)
             map.put(3,compositionLibraAndPartImage(partOfImage,libra3));//return String.valueOf(3);
-        System.out.print(4);
+       // System.out.print(4);
         if(compositionLibraAndPartImage(partOfImage,libra4) > valueCompositionLibraOnImage)
             map.put(4,compositionLibraAndPartImage(partOfImage,libra4));// return String.valueOf(4);
-        System.out.print(5);
+       // System.out.print(5);
         if(compositionLibraAndPartImage(partOfImage,libra5) > valueCompositionLibraOnImage)
             map.put(5,compositionLibraAndPartImage(partOfImage,libra5));//return String.valueOf(5);
-        System.out.print(6);
+       // System.out.print(6);
         if(compositionLibraAndPartImage(partOfImage,libra6) > valueCompositionLibraOnImage)
             map.put(6,compositionLibraAndPartImage(partOfImage,libra6));//return String.valueOf(6);
-        System.out.print(7);
+       // System.out.print(7);
         if(compositionLibraAndPartImage(partOfImage,libra7) > valueCompositionLibraOnImage)
             map.put(7,compositionLibraAndPartImage(partOfImage,libra7));//return String.valueOf(7);
-        System.out.print(8);
+       // System.out.print(8);
         if(compositionLibraAndPartImage(partOfImage,libra8) > valueCompositionLibraOnImage)
             map.put(8,compositionLibraAndPartImage(partOfImage,libra8));// return String.valueOf(8);
-        System.out.print(9);
+       // System.out.print(9);
         if(compositionLibraAndPartImage(partOfImage,libra9) > valueCompositionLibraOnImage)
             map.put(9,compositionLibraAndPartImage(partOfImage,libra9));//return String.valueOf(9);
 //        else
@@ -554,7 +559,7 @@ public class ImageClass {
 
             }
         }
-        System.out.println("result = " + res);
+        //System.out.println("result = " + res);
         return res;
     }
 
@@ -566,10 +571,10 @@ public class ImageClass {
                 lists.add(new ArrayList<>());
                 for (int j = xStartPositionText; j < xEndPosSearchText + 1; j++)
                 {
-                    System.out.print(imageMatrixThisMetod.get(i).get(j));
+                    //System.out.print(imageMatrixThisMetod.get(i).get(j));
                     lists.get(i).add(imageMatrixThisMetod.get(i).get(j));
                 }
-                System.out.print("\n");
+              //  System.out.print("\n");
             }
         }
         catch (Exception e)

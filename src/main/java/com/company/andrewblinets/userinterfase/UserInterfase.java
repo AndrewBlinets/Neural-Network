@@ -170,9 +170,13 @@ public class UserInterfase {
     private void make() {
         String urlImage = keyboardWork.readString("Enter URL folder\n");
         ImageClass imageClass = new ImageClass();
-        imageClass.setImageURL(urlImage);
+        //imageClass.setImageURL(urlImage);
+        int valueKoff  = keyboardWork.readInt("Enter value koff\n");
         try {
-            System.out.println(imageClass.getTextFromImage(75));
+            File[] list = new File(urlImage).listFiles();
+            for (File aList : list) {
+                System.out.println(aList.getPath() + " result - " + imageClass.getTextFromImage(valueKoff, aList.getPath()));
+            }
         }
         catch (NullPointerException e)
         {}
