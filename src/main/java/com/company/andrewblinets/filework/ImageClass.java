@@ -412,18 +412,18 @@ public class ImageClass {
                         imageMatrixThisMetod.remove(i);
                     summa = 0;
                 }*/
-                /*for(int i = 0; i < imageMatrixThisMetod.size(); i++)
-                {
-                    for (int j = 0; j < imageMatrixThisMetod.get(i).size(); j++)
-                    {
-                        System.out.print(imageMatrixThisMetod.get(i).get(j));
-                    }
-                    System.out.println();
-                }*/
+//                for(int i = 0; i < imageMatrixThisMetod.size(); i++)
+//                {
+//                    for (int j = 0; j < imageMatrixThisMetod.get(i).size(); j++)
+//                    {
+//                        System.out.print(imageMatrixThisMetod.get(i).get(j));
+//                    }
+//                    System.out.println();
+//                }
 
                 int sizeTextFromImage = textFromImage.length();
                 int xStartPosSearchText = 0;
-                int xEndPosSearchText = 10;
+                int xEndPosSearchText = 19;
                 boolean flag5 = false, flag7 = false;
                 do {
                     List<List<Integer>> partOfImage = getPartImage(xStartPosSearchText, xEndPosSearchText, imageMatrixThisMetod);
@@ -436,17 +436,17 @@ public class ImageClass {
                         //xStartPosSearchText = xEndPosSearchText;
                         if (textFromImage.length() - 1 == 0) {
                             xStartPosSearchText = 21;
-                            xEndPosSearchText = xStartPosSearchText + 16;
+                            xEndPosSearchText = xStartPosSearchText + 19;
                             sizeTextFromImage = textFromImage.length();
                         } else {
                             xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
-                            xEndPosSearchText = xStartPosSearchText + 16;
+                            xEndPosSearchText = xStartPosSearchText + 19;
                             sizeTextFromImage = textFromImage.length();
                         }
                     }
                     if (textFromImage.length() == 5 && !flag5) {
                         xStartPosSearchText += 26;
-                        xEndPosSearchText = xStartPosSearchText + 16;
+                        xEndPosSearchText = xStartPosSearchText + 19;
                         flag5 = true;
                         textFromImage += " ";
                         sizeTextFromImage = textFromImage.length();
@@ -455,7 +455,7 @@ public class ImageClass {
                     }
                     if (textFromImage.length() == 8 && !flag7) {
                         xStartPosSearchText += 26;
-                        xEndPosSearchText = xStartPosSearchText + 16;
+                        xEndPosSearchText = xStartPosSearchText + 19;
                         flag7 = true;
                         textFromImage += " ";
                         sizeTextFromImage = textFromImage.length();
@@ -465,11 +465,11 @@ public class ImageClass {
                         textFromImage += "|";
                         if (textFromImage.length() - 1 == 0) {
                             xStartPosSearchText = 21;
-                            xEndPosSearchText = xStartPosSearchText + 16;
+                            xEndPosSearchText = xStartPosSearchText + 19;
                             sizeTextFromImage = textFromImage.length();
                         } else {
                             xStartPosSearchText = textFromImage.length() * 19 + (textFromImage.length() - 1) * 7;
-                            xEndPosSearchText = xStartPosSearchText + 16;
+                            xEndPosSearchText = xStartPosSearchText + 19;
                             sizeTextFromImage = textFromImage.length();
                         }
                     }
@@ -493,28 +493,28 @@ public class ImageClass {
        // System.out.print(1);
         if(compositionLibraAndPartImage(partOfImage,libra1) > valueCompositionLibraOnImage)
             map.put(1,compositionLibraAndPartImage(partOfImage,libra1));;//return String.valueOf(1);
-       // System.out.print(2);
+      //  System.out.print(2);
         if(compositionLibraAndPartImage(partOfImage,libra2) > valueCompositionLibraOnImage)
             map.put(2,compositionLibraAndPartImage(partOfImage,libra2));;//return String.valueOf(2);
-        //System.out.print(3);
+      //  System.out.print(3);
         if(compositionLibraAndPartImage(partOfImage,libra3) > valueCompositionLibraOnImage)
             map.put(3,compositionLibraAndPartImage(partOfImage,libra3));//return String.valueOf(3);
-       // System.out.print(4);
+      //  System.out.print(4);
         if(compositionLibraAndPartImage(partOfImage,libra4) > valueCompositionLibraOnImage)
             map.put(4,compositionLibraAndPartImage(partOfImage,libra4));// return String.valueOf(4);
-       // System.out.print(5);
+      //  System.out.print(5);
         if(compositionLibraAndPartImage(partOfImage,libra5) > valueCompositionLibraOnImage)
             map.put(5,compositionLibraAndPartImage(partOfImage,libra5));//return String.valueOf(5);
-       // System.out.print(6);
+      //  System.out.print(6);
         if(compositionLibraAndPartImage(partOfImage,libra6) > valueCompositionLibraOnImage)
             map.put(6,compositionLibraAndPartImage(partOfImage,libra6));//return String.valueOf(6);
-       // System.out.print(7);
+      //  System.out.print(7);
         if(compositionLibraAndPartImage(partOfImage,libra7) > valueCompositionLibraOnImage)
             map.put(7,compositionLibraAndPartImage(partOfImage,libra7));//return String.valueOf(7);
-       // System.out.print(8);
+      //  System.out.print(8);
         if(compositionLibraAndPartImage(partOfImage,libra8) > valueCompositionLibraOnImage)
             map.put(8,compositionLibraAndPartImage(partOfImage,libra8));// return String.valueOf(8);
-       // System.out.print(9);
+      //  System.out.print(9);
         if(compositionLibraAndPartImage(partOfImage,libra9) > valueCompositionLibraOnImage)
             map.put(9,compositionLibraAndPartImage(partOfImage,libra9));//return String.valueOf(9);
 //        else
@@ -559,7 +559,7 @@ public class ImageClass {
 
             }
         }
-        //System.out.println("result = " + res);
+       // System.out.println("result = " + res);
         return res;
     }
 
@@ -574,7 +574,7 @@ public class ImageClass {
                     //System.out.print(imageMatrixThisMetod.get(i).get(j));
                     lists.get(i).add(imageMatrixThisMetod.get(i).get(j));
                 }
-              //  System.out.print("\n");
+               // System.out.print("\n");
             }
         }
         catch (Exception e)

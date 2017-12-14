@@ -170,7 +170,7 @@ public class UserInterfase {
     private void make() {
         String urlImage = keyboardWork.readString("Enter URL folder\n");
         ImageClass imageClass = new ImageClass();
-        //imageClass.setImageURL(urlImage);
+        imageClass.setImageURL(urlImage);
         int valueKoff  = keyboardWork.readInt("Enter value koff\n");
         try {
             File[] list = new File(urlImage).listFiles();
