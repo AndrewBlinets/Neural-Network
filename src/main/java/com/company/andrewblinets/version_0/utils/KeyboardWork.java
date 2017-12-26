@@ -1,4 +1,4 @@
-package com.company.andrewblinets.utils;
+package com.company.andrewblinets.version_0.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

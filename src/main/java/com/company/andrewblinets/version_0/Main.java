@@ -1,6 +1,6 @@
-package com.company.andrewblinets;
+package com.company.andrewblinets.version_0;
 
-import com.company.andrewblinets.userinterfase.UserInterfase;
+import com.company.andrewblinets.version_0.userinterfase.UserInterfase;
 
 /**
  * Created by Андрей on 18.10.2017.

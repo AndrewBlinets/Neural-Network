@@ -1,15 +1,5 @@
-package com.company.andrewblinets.entity;
+package com.company.andrewblinets.version_0.entity;
 
-import com.company.andrewblinets.exception.ResourseException;
-import com.company.andrewblinets.filework.ImageClass;
-import com.company.andrewblinets.filework.JSONClasss;
-import com.google.gson.Gson;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

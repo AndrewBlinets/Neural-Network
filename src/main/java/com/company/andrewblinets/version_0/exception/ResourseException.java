@@ -1,4 +1,4 @@
-package com.company.andrewblinets.exception;
+package com.company.andrewblinets.version_0.exception;
 
 /**
  * Created by Андрей on 25.10.2017.

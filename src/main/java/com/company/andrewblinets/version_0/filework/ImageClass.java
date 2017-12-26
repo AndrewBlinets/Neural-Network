@@ -1,8 +1,8 @@
-package com.company.andrewblinets.filework;
+package com.company.andrewblinets.version_0.filework;
 
-import com.company.andrewblinets.exception.ImageExeption;
-import com.company.andrewblinets.exception.ResourseException;
-import com.company.andrewblinets.exception.ValuePixcelExseption;
+import com.company.andrewblinets.version_0.exception.ImageExeption;
+import com.company.andrewblinets.version_0.exception.ResourseException;
+import com.company.andrewblinets.version_0.exception.ValuePixcelExseption;
 import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;

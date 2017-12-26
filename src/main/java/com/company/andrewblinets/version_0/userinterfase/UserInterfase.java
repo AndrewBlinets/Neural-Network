@@ -1,12 +1,12 @@
-package com.company.andrewblinets.userinterfase;
+package com.company.andrewblinets.version_0.userinterfase;
 
-import com.company.andrewblinets.entity.ImageClassByPixcel;
-import com.company.andrewblinets.exception.ImageExeption;
-import com.company.andrewblinets.exception.ResourseException;
-import com.company.andrewblinets.filework.CreateImageClass;
-import com.company.andrewblinets.filework.ImageClass;
-import com.company.andrewblinets.filework.JSONClasss;
-import com.company.andrewblinets.utils.KeyboardWork;
+import com.company.andrewblinets.version_0.entity.ImageClassByPixcel;
+import com.company.andrewblinets.version_0.exception.ImageExeption;
+import com.company.andrewblinets.version_0.exception.ResourseException;
+import com.company.andrewblinets.version_0.filework.CreateImageClass;
+import com.company.andrewblinets.version_0.filework.ImageClass;
+import com.company.andrewblinets.version_0.filework.JSONClasss;
+import com.company.andrewblinets.version_0.utils.KeyboardWork;
 import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;
@@ -14,8 +14,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Андрей on 18.10.2017.
