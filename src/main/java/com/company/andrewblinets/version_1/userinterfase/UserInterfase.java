@@ -2,6 +2,7 @@ package com.company.andrewblinets.version_1.userinterfase;
 
 import com.company.andrewblinets.version_0.filework.ImageClass;
 import com.company.andrewblinets.version_0.utils.KeyboardWork;
+import com.company.andrewblinets.version_1.template.CreateTemplate;
 
 public class UserInterfase {
 
@@ -42,7 +43,7 @@ public class UserInterfase {
     }
 
     private void generateJsonTemplate() {
-
+        new CreateTemplate().createTemplateJsonformat(keyboardWork.readInt("Enter kol template"));
     }
 
 }

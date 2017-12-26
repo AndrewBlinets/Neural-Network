@@ -27,10 +27,18 @@ public class CreateImageClass {
     }
 
     public void generateImage(int i, int kof) throws IOException {
+//        BufferedImage image = null;
+//        Color myBlack = new Color(0, 0, 0);
+//        int rgb = myBlack.getRGB();
         ImageClassByPixcel imageClassByPixcel = new JSONClasss("").readJsonFile("templateImage/" + i + ".json");
         int colPixcelInImage = imageClassByPixcel.getListX().size()/kof;
         for (int j = 0; j < 1000; j++)
         {
+            //try {
+                //image = ImageIO.read(new File("0.jpg"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             int count = rnd((int)colPixcelInImage/2, colPixcelInImage);
             do {
                 int numberPosition = rnd(0,colPixcelInImage - 1);
@@ -39,6 +47,9 @@ public class CreateImageClass {
                 //System.out.println(numberPosition);
                 //if(myImage.get(positionY).get(positionX) == 0) {
                     myImage.get(positionY).set(positionX, 1);
+                    count--;
+                //}
+                //image.setRGB(positionX,positionY,rgb);
             }
             while (count != 0);
             new JSONClasss("templateImageInJSONType/" + i + "/" + j + ".json").writeJsonFile(new Gson().toJson(myImage));
